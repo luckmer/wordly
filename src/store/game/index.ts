@@ -12,6 +12,7 @@ type GameStoreState = {
 }
 
 type GameStoreActions = {
+  setWord: (word: string) => void
   setUpdateBoard: (key: string) => void
   setBackspace: () => void
   setSubmitRow: () => void
@@ -25,6 +26,18 @@ export const gameStore = create<GameStore>()((set) => ({
   rowIndex: 0,
   word: '',
   usedKeys: {},
+
+  setWord: (word) => {
+    set(
+      produce((state: GameStore) => {
+        state.word = word
+        state.usedKeys = {}
+        state.currentIndex = 0
+        state.rowIndex = 0
+        state.board = BOARD
+      }),
+    )
+  },
 
   setUpdateBoard: (key) =>
     set(
