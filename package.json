@@ -18,6 +18,8 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "expo": "~56.0.4",
+    "expo-app-loading": "^2.1.1",
+    "expo-font": "^57.0.1",
     "expo-splash-screen": "~56.0.10",
     "expo-status-bar": "~56.0.4",
     "immer": "^11.1.18",

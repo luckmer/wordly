@@ -2,9 +2,8 @@ import ModalHeader from '@components/ModalHeader'
 import GameOver from '@containers/GameOver'
 import Header from '@containers/Header'
 import Home from '@containers/Home'
-import HowToPlay from '@containers/HowToPlay'
+import HowToPlayRoot from '@containers/HowToPlay'
 import Settings from '@containers/Settings'
-import Stats from '@containers/Stats'
 import { createStaticNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
@@ -16,16 +15,6 @@ const RootStack = createNativeStackNavigator({
   },
   screens: {
     Home: { screen: Home },
-    Stats: {
-      screen: Stats,
-      options: {
-        header: (props) => <ModalHeader title='Stats' onClose={() => props.navigation.goBack()} />,
-        presentation: 'formSheet',
-        sheetCornerRadius: 12,
-        sheetGrabberVisible: true,
-        contentStyle: { backgroundColor: '#000' },
-      },
-    },
     Settings: {
       screen: Settings,
       options: {
@@ -39,7 +28,7 @@ const RootStack = createNativeStackNavigator({
       },
     },
     HowToPlay: {
-      screen: HowToPlay,
+      screen: HowToPlayRoot,
       options: {
         header: (props) => (
           <ModalHeader title='How to play' onClose={() => props.navigation.goBack()} />
@@ -53,9 +42,7 @@ const RootStack = createNativeStackNavigator({
     GameOver: {
       screen: GameOver,
       options: {
-        header: (props) => (
-          <ModalHeader title='Game over' onClose={() => props.navigation.goBack()} />
-        ),
+        header: () => <ModalHeader title='Game over' />,
         presentation: 'formSheet',
         sheetCornerRadius: 12,
         sheetGrabberVisible: true,

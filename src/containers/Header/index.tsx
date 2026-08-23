@@ -8,9 +8,6 @@ export interface IProps {
 const HeaderRoot: FC<IProps> = ({ onClickNavigate }) => {
   return (
     <Header
-      onClickChart={() => {
-        onClickNavigate('Stats')
-      }}
       onClickQuestionMark={() => {
         onClickNavigate('HowToPlay')
       }}

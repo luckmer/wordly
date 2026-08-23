@@ -49,9 +49,7 @@ const HomeRoot = () => {
             break
         }
 
-        const isWord = board[rowIndex].words.every((letter) => letter !== '')
-
-        if (isWord) {
+        if (normalizedKey === 'enter' && spellChecker.isValid(boardWord)) {
           return true
         }
       }}

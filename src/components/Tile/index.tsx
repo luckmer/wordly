@@ -16,19 +16,7 @@ interface IProps {
 
 export const Tile: FC<IProps> = ({ letter, index, size, isAccepted, word, animated = true }) => {
   const [rotation] = useState(() => new Animated.Value(isAccepted && !animated ? 180 : 0))
-  const [prevAccepted, setPrevAccepted] = useState(isAccepted)
   const [hasFlipped, setHasFlipped] = useState(isAccepted && !animated)
-
-  if (isAccepted !== prevAccepted) {
-    setPrevAccepted(isAccepted)
-    if (!isAccepted) {
-      setHasFlipped(false)
-      rotation.setValue(0)
-    } else if (!animated) {
-      rotation.setValue(180)
-      setHasFlipped(true)
-    }
-  }
 
   const revealedColor = useMemo(() => {
     return letter ? STATUS_COLOR[getLetterStatus(letter, index, word)] : ''
@@ -103,7 +91,7 @@ export const Tile: FC<IProps> = ({ letter, index, size, isAccepted, word, animat
         ]}
         className={clsx(
           hasFlipped ? revealedColor : '',
-          'flex items-center justify-center rounded-md border-2 border-neutral-400 absolute',
+          'flex items-center justify-center rounded-md border-neutral-400 absolute',
         )}>
         <Typography
           color='white'

@@ -84,7 +84,8 @@ export const gameStore = create<IGameStore>()((set) => ({
         if (!isRowFull) return
 
         currentRow.acceptedWord = true
-        state.rowIndex += 1
+        state.rowIndex = Math.min(state.rowIndex + 1, state.board.length)
+
         state.currentIndex = 0
       }),
     ),

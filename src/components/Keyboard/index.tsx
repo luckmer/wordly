@@ -17,8 +17,23 @@ export interface IProps {
 
 const Keyboard: FC<IProps> = ({ word, board, onClickKey }) => {
   const [delayedBoard, setDelayedBoard] = useState<IBoard[]>(board)
+  const [prevBoard, setPrevBoard] = useState<IBoard[]>(board)
+
+  const isBoardEmpty = useMemo(
+    () => board.every((row) => !row.acceptedWord && row.words.every((w) => !w)),
+    [board],
+  )
+
+  if (board !== prevBoard) {
+    setPrevBoard(board)
+    if (isBoardEmpty) {
+      setDelayedBoard(board)
+    }
+  }
 
   useEffect(() => {
+    if (isBoardEmpty) return
+
     const lastRow = [...board].reverse().find((row) => row.acceptedWord)
     if (!lastRow) return
 
@@ -28,12 +43,14 @@ const Keyboard: FC<IProps> = ({ word, board, onClickKey }) => {
     )
 
     return () => clearTimeout(timeout)
-  }, [board])
+  }, [board, isBoardEmpty])
+
+  const activeBoard = isBoardEmpty ? board : delayedBoard
 
   const keyStatuses = useMemo(() => {
     const statuses: Record<string, LetterStatus> = {}
 
-    delayedBoard.forEach((row) => {
+    activeBoard.forEach((row) => {
       if (!row.acceptedWord) return
 
       row.words.forEach((letter, index) => {
@@ -41,6 +58,7 @@ const Keyboard: FC<IProps> = ({ word, board, onClickKey }) => {
 
         const status = getLetterStatus(letter, index, word)
         const current = statuses[letter]
+
         if (current === 'correct' || (current === 'present' && status === 'absent')) {
           return
         }
@@ -50,10 +68,13 @@ const Keyboard: FC<IProps> = ({ word, board, onClickKey }) => {
     })
 
     return statuses
-  }, [delayedBoard, word])
+  }, [activeBoard, word])
 
   const revealedColor = (keyboardKey: string) => {
-    if (!keyboardKey || keyboardKey === '<' || keyboardKey === 'Enter') return 'bg-neutral-600'
+    if (!keyboardKey || keyboardKey === '<' || keyboardKey === 'Enter') {
+      return 'bg-neutral-600'
+    }
+
     return STATUS_COLOR[keyStatuses[keyboardKey]] ?? 'bg-neutral-600'
   }
 
@@ -64,7 +85,7 @@ const Keyboard: FC<IProps> = ({ word, board, onClickKey }) => {
         return (
           <View
             key={idx}
-            className='mb-[5px] flex flex-row items-center justify-center mx-auto'
+            className='flex-row items-center justify-center gap-6 mb-8'
             style={{ width: SIZE * 0.95 }}>
             {keysRow.map((keyboardKey) => {
               const isWide = keyboardKey === '<' || keyboardKey === 'Enter'
@@ -72,23 +93,23 @@ const Keyboard: FC<IProps> = ({ word, board, onClickKey }) => {
                 <DefaultButton
                   key={keyboardKey}
                   className={clsx(
-                    'm-[2px] flex items-center justify-center rounded-[6px]',
+                    'flex items-center justify-center rounded-6',
                     revealedColor(keyboardKey),
                   )}
                   style={{
-                    height: SIZE / keyRowCount + 2 + 20,
-                    flex: isWide ? 2 : 1,
+                    height: SIZE / keyRowCount + 2 + 12,
+                    flex: isWide ? 1.5 : 1,
                   }}
-                  onClick={() => {
-                    onClickKey(keyboardKey)
-                  }}>
+                  onClick={() => onClickKey(keyboardKey)}>
                   {keyboardKey === '<' ? (
-                    <Delete size={18} color={'#E5E5E7'} />
+                    <Delete size={18} color='#E5E5E7' />
                   ) : (
                     <Typography
                       uppercase
                       color='white'
-                      style={{ fontSize: keyboardKey === 'Enter' ? 12 : 18 }}>
+                      style={{
+                        fontSize: keyboardKey === 'Enter' ? 12 : 14,
+                      }}>
                       {keyboardKey}
                     </Typography>
                   )}

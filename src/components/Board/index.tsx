@@ -26,12 +26,13 @@ const Board: FC<IProps> = ({ board, isValid, activeRow, word, onShakeComplete })
             onShakeComplete={onShakeComplete}>
             {row.words.map((letter, letterIndex) => (
               <Tile
+                key={`${rowIndex}-${letterIndex}-${word}`}
                 isAccepted={row.acceptedWord}
                 index={letterIndex}
-                key={letterIndex}
                 size={CELL_SIZE}
                 letter={letter}
                 word={word}
+                animated={true}
               />
             ))}
           </ShakeBox>
