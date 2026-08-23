@@ -1,5 +1,5 @@
-import { IBoard } from '@/interfaces/game/interfaces'
-import { BOARD } from '@/static'
+import { IBoard } from '@interfaces/game/interfaces'
+import { BOARD } from '@static/index'
 import { produce } from 'immer'
 import { create } from 'zustand'
 
@@ -7,7 +7,6 @@ type GameStoreState = {
   rowIndex: number
   currentIndex: number
   word: string
-  usedKeys: Record<string, string>
   board: IBoard[]
 }
 
@@ -18,20 +17,18 @@ type GameStoreActions = {
   setSubmitRow: () => void
 }
 
-type GameStore = GameStoreState & GameStoreActions
+type IGameStore = GameStoreState & GameStoreActions
 
-export const gameStore = create<GameStore>()((set) => ({
+export const gameStore = create<IGameStore>()((set) => ({
   board: BOARD,
   currentIndex: 0,
   rowIndex: 0,
   word: '',
-  usedKeys: {},
 
   setWord: (word) => {
     set(
-      produce((state: GameStore) => {
+      produce((state: IGameStore) => {
         state.word = word
-        state.usedKeys = {}
         state.currentIndex = 0
         state.rowIndex = 0
         state.board = BOARD
@@ -41,7 +38,7 @@ export const gameStore = create<GameStore>()((set) => ({
 
   setUpdateBoard: (key) =>
     set(
-      produce((state: GameStore) => {
+      produce((state: IGameStore) => {
         if (state.currentIndex >= 5 || state.rowIndex >= state.board.length) return
         const row = state.board[state.rowIndex]
         if (!row) return
@@ -53,7 +50,7 @@ export const gameStore = create<GameStore>()((set) => ({
 
   setBackspace: () =>
     set(
-      produce((state: GameStore) => {
+      produce((state: IGameStore) => {
         if (state.currentIndex === 0 || state.rowIndex >= state.board.length) return
         const row = state.board[state.rowIndex]
         if (!row) return
@@ -65,7 +62,7 @@ export const gameStore = create<GameStore>()((set) => ({
 
   setSubmitRow: () =>
     set(
-      produce((state: GameStore) => {
+      produce((state: IGameStore) => {
         if (state.rowIndex >= state.board.length) return
 
         const currentRow = state.board[state.rowIndex]

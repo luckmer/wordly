@@ -7,7 +7,6 @@
     "baseUrl": ".",
 
     "paths": {
-      "@/*": ["./src/*"],
       "@components/*": ["./src/components/*"],
       "@containers/*": ["./src/containers/*"],
       "@interfaces/*": ["./src/interfaces/*"],
@@ -15,8 +14,10 @@
       "@store/*": ["./src/store/*"],
       "@common/*": ["./src/common/*"],
       "@static/*": ["./src/static/*"],
+      "@utils/*": ["./src/utils/*"],
       "@libs/*": ["./src/libs/*"],
-      "@json/*": ["./src/json/*"]
+      "@json/*": ["./src/json/*"],
+      "@routes/*": ["./src/routes/*"]
     }
   }
 }

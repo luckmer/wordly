@@ -1,39 +1,40 @@
-import { IBoard } from '@/interfaces/game/interfaces'
+import { ShakeBox } from '@components/shakeBox'
+import { Tile } from '@components/Tile'
+import { IBoard } from '@interfaces/game/interfaces'
 import { SIZE } from '@static/index'
 import { FC } from 'react'
 import { View } from 'react-native'
-import { Typography } from '../Typography'
 
 export interface IProps {
   board: IBoard[]
+  isValid: boolean | null
+  activeRow: number
+  word: string
+  onShakeComplete?: () => void
 }
 
-const Board: FC<IProps> = ({ board }) => {
+const Board: FC<IProps> = ({ board, isValid, activeRow, word, onShakeComplete }) => {
   return (
     <View className='items-center gap-1.5 px-4'>
       {board.map((row, rowIndex) => {
         const CELL_SIZE = (SIZE * 0.7) / row.words.length
-
         return (
-          <View key={rowIndex} className='flex-row gap-1.5'>
+          <ShakeBox
+            key={rowIndex}
+            className='flex-row gap-1.5'
+            shake={rowIndex === activeRow && isValid === false}
+            onShakeComplete={onShakeComplete}>
             {row.words.map((letter, letterIndex) => (
-              <View
+              <Tile
+                isAccepted={row.acceptedWord}
+                index={letterIndex}
                 key={letterIndex}
-                style={{ width: CELL_SIZE, height: CELL_SIZE }}
-                className={`flex items-center justify-center rounded-md border-2 ${
-                  letter ? 'border-neutral-400' : 'border-neutral-700'
-                }`}>
-                <Typography
-                  color='white'
-                  class='text-[14px] font-[400]'
-                  style={{ fontSize: CELL_SIZE * 0.3 }}
-                  uppercase
-                  text='custom'>
-                  {letter}
-                </Typography>
-              </View>
+                size={CELL_SIZE}
+                letter={letter}
+                word={word}
+              />
             ))}
-          </View>
+          </ShakeBox>
         )
       })}
     </View>

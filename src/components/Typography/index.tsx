@@ -1,4 +1,4 @@
-import { typography } from '@/common/Typography'
+import { typography } from '@common/Typography'
 import type { VariantProps } from 'class-variance-authority'
 import type { ReactNode } from 'react'
 import type { StyleProp, TextStyle } from 'react-native'
