@@ -1,8 +1,8 @@
-import ModalHeader from '@components/ModalHeader'
 import GameOver from '@containers/GameOver'
 import Header from '@containers/Header'
 import Home from '@containers/Home'
 import HowToPlayRoot from '@containers/HowToPlay'
+import ModalHeader from '@containers/ModalHeader'
 import Settings from '@containers/Settings'
 import { createStaticNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
@@ -19,7 +19,12 @@ const RootStack = createNativeStackNavigator({
       screen: Settings,
       options: {
         header: (props) => (
-          <ModalHeader title='Settings' onClose={() => props.navigation.goBack()} />
+          <ModalHeader
+            title='Settings'
+            onClose={() => {
+              props.navigation.goBack()
+            }}
+          />
         ),
         presentation: 'formSheet',
         sheetCornerRadius: 12,
