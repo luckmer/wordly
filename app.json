@@ -3,8 +3,22 @@
     "name": "wordly",
     "slug": "wordly",
     "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/favicon.png",
+    "userInterfaceStyle": "dark",
+    "scheme": "wordly",
+    "assetBundlePatterns": ["**/*"],
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#000000"
+      }
     },
     "experiments": {
       "tsconfigPaths": true
@@ -14,24 +28,12 @@
         "expo-splash-screen",
         {
           "image": "./assets/splash.png",
-          "backgroundColor": "#000"
+          "backgroundColor": "#000000",
+          "resizeMode": "contain"
         }
       ],
       "expo-font",
       "expo-status-bar"
-    ],
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "assetBundlePatterns": ["**/*"],
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#000"
-      }
-    }
+    ]
   }
 }
