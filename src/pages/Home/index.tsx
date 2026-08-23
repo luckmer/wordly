@@ -65,7 +65,9 @@ const Home: FC<IProps> = ({ board, rowIndex, word, onClickKey, onClickOpenGameOv
               const timeout = word.length * FLIP_STAGGER + FLIP_DURATION * 2
 
               timeoutRef.current = setTimeout(() => {
-                if (rowIndex === board.length - 1) {
+                const currentWord = board[rowIndex].words.join('')
+
+                if (rowIndex === board.length - 1 || currentWord === word) {
                   onClickOpenGameOver()
                 }
                 setIsAnimation(false)
