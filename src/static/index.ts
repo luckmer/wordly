@@ -14,6 +14,27 @@ export const KEYS: string[][] = [
   ['Enter', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '<'],
 ]
 
+export const EXAMPLES = [
+  {
+    guess: 'WORDY',
+    keyWord: 'WATCH',
+    highlightIndex: 0,
+    description: 'is in the word and in the correct spot. The tile turns green.',
+  },
+  {
+    guess: 'LIGHT',
+    keyWord: 'IDEAL',
+    highlightIndex: 1,
+    description: 'is in the word but in the wrong spot. The tile turns yellow.',
+  },
+  {
+    guess: 'ROGUE',
+    keyWord: 'ROBIN',
+    highlightIndex: 3,
+    description: 'is not in the word in any spot. The tile turns grey.',
+  },
+]
+
 export const BOARD: IBoard[] = [
   { words: ['', '', '', '', ''], acceptedWord: false },
   { words: ['', '', '', '', ''], acceptedWord: false },

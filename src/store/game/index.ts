@@ -11,6 +11,7 @@ type GameStoreState = {
 }
 
 type GameStoreActions = {
+  restart: () => void
   setWord: (word: string) => void
   setUpdateBoard: (key: string) => void
   setBackspace: () => void
@@ -24,6 +25,17 @@ export const gameStore = create<IGameStore>()((set) => ({
   currentIndex: 0,
   rowIndex: 0,
   word: '',
+
+  restart: () => {
+    set(
+      produce((state: IGameStore) => {
+        state.board = JSON.parse(JSON.stringify(BOARD))
+        state.word = ''
+        state.currentIndex = 0
+        state.rowIndex = 0
+      }),
+    )
+  },
 
   setWord: (word) => {
     set(

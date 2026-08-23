@@ -1,3 +1,4 @@
+import { DefaultButton } from '@components/Button'
 import { IBoard } from '@interfaces/game/interfaces'
 import { LetterStatus } from '@interfaces/static/types'
 import { FLIP_DURATION, FLIP_STAGGER, KEYS, SIZE, STATUS_COLOR } from '@static/index'
@@ -5,7 +6,7 @@ import { getLetterStatus } from '@utils/index'
 import { clsx } from 'clsx'
 import { Delete } from 'lucide-react-native'
 import { FC, useEffect, useMemo, useState } from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { View } from 'react-native'
 import { Typography } from '../Typography'
 
 export interface IProps {
@@ -68,7 +69,7 @@ const Keyboard: FC<IProps> = ({ word, board, onClickKey }) => {
             {keysRow.map((keyboardKey) => {
               const isWide = keyboardKey === '<' || keyboardKey === 'Enter'
               return (
-                <TouchableOpacity
+                <DefaultButton
                   key={keyboardKey}
                   className={clsx(
                     'm-[2px] flex items-center justify-center rounded-[6px]',
@@ -78,7 +79,7 @@ const Keyboard: FC<IProps> = ({ word, board, onClickKey }) => {
                     height: SIZE / keyRowCount + 2 + 20,
                     flex: isWide ? 2 : 1,
                   }}
-                  onPress={() => {
+                  onClick={() => {
                     onClickKey(keyboardKey)
                   }}>
                   {keyboardKey === '<' ? (
@@ -91,7 +92,7 @@ const Keyboard: FC<IProps> = ({ word, board, onClickKey }) => {
                       {keyboardKey}
                     </Typography>
                   )}
-                </TouchableOpacity>
+                </DefaultButton>
               )
             })}
           </View>

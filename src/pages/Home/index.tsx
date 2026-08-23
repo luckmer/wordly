@@ -2,21 +2,31 @@ import Board from '@components/Board'
 import Keyboard from '@components/Keyboard'
 import { IBoard } from '@interfaces/game/interfaces'
 import { FLIP_DURATION, FLIP_STAGGER } from '@static/index'
-import { FC, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 export interface IProps {
   onClickKey: (key: string) => boolean | undefined
+  onClickOpenGameOver: () => void
   rowIndex: number
   board: IBoard[]
   word: string
 }
 
-const Home: FC<IProps> = ({ board, rowIndex, word, onClickKey }) => {
-  const insets = useSafeAreaInsets()
+const Home: FC<IProps> = ({ board, rowIndex, word, onClickKey, onClickOpenGameOver }) => {
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const [isValid, setIsValid] = useState<boolean | null>(null)
   const [isAnimation, setIsAnimation] = useState(false)
+  const insets = useSafeAreaInsets()
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+      }
+    }
+  }, [])
 
   return (
     <View
@@ -40,17 +50,26 @@ const Home: FC<IProps> = ({ board, rowIndex, word, onClickKey }) => {
           word={word}
           onClickKey={(key) => {
             if (isAnimation) return
-            const isValid = onClickKey(key)
-            if (isValid === false) {
+
+            const keyResult = onClickKey(key)
+
+            if (keyResult === false) {
               setIsAnimation(true)
               setIsValid(false)
+              return
             }
 
-            if (isValid === true) {
+            if (keyResult === true) {
               setIsAnimation(true)
 
-              const timeout = board[0].words.length * FLIP_STAGGER + FLIP_DURATION * 2
-              setTimeout(() => setIsAnimation(false), timeout)
+              const timeout = word.length * FLIP_STAGGER + FLIP_DURATION * 2
+
+              timeoutRef.current = setTimeout(() => {
+                if (rowIndex === board.length - 1) {
+                  onClickOpenGameOver()
+                }
+                setIsAnimation(false)
+              }, timeout)
             }
           }}
         />

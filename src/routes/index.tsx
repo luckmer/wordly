@@ -1,3 +1,5 @@
+import ModalHeader from '@components/ModalHeader'
+import GameOver from '@containers/GameOver'
 import Header from '@containers/Header'
 import Home from '@containers/Home'
 import HowToPlay from '@containers/HowToPlay'
@@ -13,37 +15,51 @@ const RootStack = createNativeStackNavigator({
     },
   },
   screens: {
-    Home: {
-      screen: Home,
-    },
+    Home: { screen: Home },
     Stats: {
       screen: Stats,
       options: {
-        headerShown: false,
+        header: (props) => <ModalHeader title='Stats' onClose={() => props.navigation.goBack()} />,
         presentation: 'formSheet',
-        sheetAllowedDetents: [0.95],
         sheetCornerRadius: 12,
         sheetGrabberVisible: true,
+        contentStyle: { backgroundColor: '#000' },
       },
     },
     Settings: {
       screen: Settings,
       options: {
-        headerShown: false,
+        header: (props) => (
+          <ModalHeader title='Settings' onClose={() => props.navigation.goBack()} />
+        ),
         presentation: 'formSheet',
-        sheetAllowedDetents: [0.95],
         sheetCornerRadius: 12,
         sheetGrabberVisible: true,
+        contentStyle: { backgroundColor: '#000' },
       },
     },
     HowToPlay: {
       screen: HowToPlay,
       options: {
-        headerShown: false,
+        header: (props) => (
+          <ModalHeader title='How to play' onClose={() => props.navigation.goBack()} />
+        ),
         presentation: 'formSheet',
-        sheetAllowedDetents: [0.95],
         sheetCornerRadius: 12,
         sheetGrabberVisible: true,
+        contentStyle: { backgroundColor: '#000' },
+      },
+    },
+    GameOver: {
+      screen: GameOver,
+      options: {
+        header: (props) => (
+          <ModalHeader title='Game over' onClose={() => props.navigation.goBack()} />
+        ),
+        presentation: 'formSheet',
+        sheetCornerRadius: 12,
+        sheetGrabberVisible: true,
+        contentStyle: { backgroundColor: '#000' },
       },
     },
   },

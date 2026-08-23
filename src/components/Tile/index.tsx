@@ -11,18 +11,22 @@ interface IProps {
   size: number
   isAccepted: boolean
   word: string
+  animated?: boolean
 }
 
-export const Tile: FC<IProps> = ({ letter, index, size, isAccepted, word }) => {
-  const [rotation] = useState(() => new Animated.Value(0))
+export const Tile: FC<IProps> = ({ letter, index, size, isAccepted, word, animated = true }) => {
+  const [rotation] = useState(() => new Animated.Value(isAccepted && !animated ? 180 : 0))
   const [prevAccepted, setPrevAccepted] = useState(isAccepted)
-  const [hasFlipped, setHasFlipped] = useState(false)
+  const [hasFlipped, setHasFlipped] = useState(isAccepted && !animated)
 
   if (isAccepted !== prevAccepted) {
     setPrevAccepted(isAccepted)
     if (!isAccepted) {
       setHasFlipped(false)
       rotation.setValue(0)
+    } else if (!animated) {
+      rotation.setValue(180)
+      setHasFlipped(true)
     }
   }
 
@@ -31,7 +35,7 @@ export const Tile: FC<IProps> = ({ letter, index, size, isAccepted, word }) => {
   }, [letter, index, word])
 
   useEffect(() => {
-    if (!isAccepted) return
+    if (!isAccepted || !animated) return
 
     rotation.setValue(0)
 
@@ -60,7 +64,7 @@ export const Tile: FC<IProps> = ({ letter, index, size, isAccepted, word }) => {
       animation.stop()
       clearTimeout(revealTimeout)
     }
-  }, [isAccepted, index, rotation])
+  }, [isAccepted, index, rotation, animated])
 
   const frontRotateX = rotation.interpolate({
     inputRange: [0, 180],
